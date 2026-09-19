@@ -1,40 +1,946 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>किराना स्टोर</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: #f7f8fa; color: #1f2937; line-height: 1.6; font-size: 16px;
-    overflow-x: hidden;
-  }
-  :root {
-    --primary: #16a34a; --primary-dark: #15803d; --primary-light: #dcfce7;
-    --accent: #ea580c; --text: #1f2937; --text-light: #6b7280;
-    --bg: #f7f8fa; --card: #ffffff; --border: #e5e7eb;
-    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-    --radius: 12px;
-  }
-  #loading {
-    position: fixed; inset: 0; background: #f7f8fa;
-    display: flex; flex-direction: column; align-items: center;
-    justify-content: center; z-index: 9999; gap: 16px;
-  }
-  .spinner {
-    width: 44px; height: 44px;
-    border: 4px solid var(--primary-light);
-    border-top-color: var(--primary);
-    border-radius: 50%; animation: spin 0.8s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  #loading p { color: var(--text-light); font-size: 15px; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f766e">
+  <meta name="description" content="आपकी भरोसेमंद किराना दुकान">
+  <title>किराना स्टोर</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --primary: #0f766e;
+      --primary-dark: #115e59;
+      --primary-light: #ecfdf5;
+      --accent: #f59e0b;
+      --danger: #dc2626;
+      --text: #17202a;
+      --muted: #64748b;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --shadow: 0 8px 25px rgba(15, 23, 42, 0.07);
+      --radius: 18px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Noto Sans Devanagari", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 28px));
+      margin: auto;
+    }
+
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .brand-logo {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      object-fit: cover;
+      background: var(--primary-light);
+      border: 1px solid #ccfbf1;
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      min-width: 0;
+    }
+
+    .brand-name {
+      font-size: 17px;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .brand-subtitle {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+
+    .nav-btn {
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 12px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      display: grid;
+      place-items: center;
+      font-size: 19px;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 28px 0 22px;
+    }
+
+    .hero-box {
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      background: linear-gradient(135deg, #0f766e, #115e59);
+      color: white;
+      padding: 30px 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-box::after {
+      content: "";
+      position: absolute;
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      right: -70px;
+      top: -70px;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      font-size: 12px;
+      margin-bottom: 14px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4ade80;
+    }
+
+    .hero h1 {
+      font-size: clamp(27px, 7vw, 48px);
+      line-height: 1.15;
+      margin-bottom: 10px;
+      font-weight: 800;
+    }
+
+    .hero p {
+      font-size: 14px;
+      opacity: 0.9;
+      max-width: 650px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 20px;
+    }
+
+    .hero-btn {
+      min-height: 45px;
+      padding: 0 15px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.2);
+      background: white;
+      color: var(--primary-dark);
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    .hero-btn.secondary {
+      color: white;
+      background: rgba(255,255,255,.1);
+    }
+
+    /* SEARCH */
+    .search-section {
+      padding: 7px 0 18px;
+    }
+
+    .search-box {
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      height: 52px;
+      padding: 0 48px 0 17px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      outline: none;
+      background: white;
+      box-shadow: 0 3px 12px rgba(15,23,42,.04);
+      font-size: 15px;
+    }
+
+    .search-box input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(15,118,110,.1);
+    }
+
+    .search-icon {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 20px;
+    }
+
+    /* SECTION */
+    section {
+      padding: 18px 0;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 10px;
+      margin-bottom: 13px;
+    }
+
+    .section-title {
+      font-size: 21px;
+      font-weight: 800;
+    }
+
+    .section-subtitle {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* CATEGORIES */
+    .categories {
+      display: flex;
+      gap: 9px;
+      overflow-x: auto;
+      padding: 2px 2px 9px;
+      scrollbar-width: none;
+    }
+
+    .categories::-webkit-scrollbar {
+      display: none;
+    }
+
+    .category-btn {
+      flex: 0 0 auto;
+      border: 1px solid var(--border);
+      background: white;
+      color: #334155;
+      border-radius: 999px;
+      padding: 9px 15px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .category-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* OFFERS */
+    .offers-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .offer-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 18px;
+      padding: 18px;
+      background: linear-gradient(135deg, #fff7ed, #fffbeb);
+      border: 1px solid #fed7aa;
+    }
+
+    .offer-card h3 {
+      font-size: 17px;
+      margin-bottom: 4px;
+    }
+
+    .offer-card p {
+      color: #78716c;
+      font-size: 13px;
+    }
+
+    .offer-badge {
+      display: inline-block;
+      margin-bottom: 8px;
+      background: #f59e0b;
+      color: white;
+      padding: 4px 9px;
+      border-radius: 7px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    /* PRODUCTS */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .product-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(15,23,42,.04);
+      transition: transform .2s ease;
+    }
+
+    .product-card:active {
+      transform: scale(.98);
+    }
+
+    .product-image-wrap {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      background: #f1f5f9;
+      overflow: hidden;
+    }
+
+    .product-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .product-image-fallback {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      color: #94a3b8;
+      font-size: 38px;
+    }
+
+    .availability {
+      position: absolute;
+      left: 8px;
+      top: 8px;
+      padding: 4px 7px;
+      border-radius: 7px;
+      font-size: 10px;
+      font-weight: 700;
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .availability.unavailable {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .featured-badge {
+      position: absolute;
+      right: 8px;
+      top: 8px;
+      padding: 4px 7px;
+      border-radius: 7px;
+      background: #fef3c7;
+      color: #92400e;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .product-info {
+      padding: 12px;
+    }
+
+    .product-category {
+      color: var(--primary);
+      font-size: 10px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .product-name {
+      font-size: 14px;
+      line-height: 1.35;
+      font-weight: 700;
+      min-height: 38px;
+    }
+
+    .product-price {
+      margin-top: 8px;
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .product-unit {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .order-btn {
+      width: 100%;
+      min-height: 38px;
+      border: 0;
+      border-radius: 10px;
+      margin-top: 10px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .order-btn:disabled {
+      background: #f1f5f9;
+      color: #94a3b8;
+      cursor: not-allowed;
+    }
+
+    /* EMPTY */
+    .empty {
+      padding: 35px 15px;
+      text-align: center;
+      background: white;
+      border: 1px dashed var(--border);
+      border-radius: 17px;
+      color: var(--muted);
+    }
+
+    .empty-icon {
+      font-size: 35px;
+      margin-bottom: 8px;
+    }
+
+    /* ABOUT / CONTACT */
+    .info-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 4px 15px rgba(15,23,42,.04);
+    }
+
+    .info-card p {
+      color: #475569;
+      font-size: 14px;
+      white-space: pre-line;
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 11px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 13px;
+      background: #f8fafc;
+    }
+
+    .contact-icon {
+      width: 38px;
+      height: 38px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      background: var(--primary-light);
+      font-size: 18px;
+    }
+
+    .contact-label {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .contact-value {
+      font-size: 13px;
+      font-weight: 600;
+      word-break: break-word;
+    }
+
+    /* FOOTER */
+    footer {
+      margin-top: 25px;
+      padding: 25px 0 90px;
+      background: #0f172a;
+      color: white;
+    }
+
+    .footer-main {
+      display: grid;
+      gap: 18px;
+    }
+
+    .footer-brand {
+      font-size: 19px;
+      font-weight: 800;
+    }
+
+    .footer-text {
+      color: #94a3b8;
+      font-size: 12px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .footer-link {
+      color: #cbd5e1;
+      font-size: 12px;
+    }
+
+    .copyright {
+      padding-top: 17px;
+      margin-top: 17px;
+      border-top: 1px solid rgba(255,255,255,.1);
+      color: #64748b;
+      font-size: 11px;
+    }
+
+    /* FLOATING WHATSAPP */
+    .floating-whatsapp {
+      position: fixed;
+      right: 16px;
+      bottom: 18px;
+      z-index: 900;
+      width: 53px;
+      height: 53px;
+      border-radius: 50%;
+      background: #25d366;
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 25px;
+      box-shadow: 0 8px 25px rgba(37,211,102,.3);
+    }
+
+    /* LOADING */
+    .loading {
+      min-height: 55vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .loader {
+      width: 38px;
+      height: 38px;
+      border: 4px solid #ccfbf1;
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+      margin: auto auto 12px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 82px;
+      transform: translate(-50%, 20px);
+      z-index: 2000;
+      background: #0f172a;
+      color: white;
+      padding: 11px 15px;
+      border-radius: 11px;
+      font-size: 12px;
+      opacity: 0;
+      pointer-events: none;
+      transition: .25s ease;
+      max-width: calc(100% - 30px);
+      text-align: center;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    /* DESKTOP */
+    @media (min-width: 650px) {
+      .products-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .offers-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .hero-box {
+        padding: 45px;
+      }
+
+      .footer-main {
+        grid-template-columns: 1.5fr 1fr;
+      }
+    }
+
+    @media (min-width: 900px) {
+      .products-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .nav-btn {
+        width: auto;
+        padding: 0 14px;
+      }
+
+      .nav-btn span {
+        margin-left: 5px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="app">
+
+    <!-- HEADER -->
+    <header>
+      <div class="container nav">
+
+        <a href="#" class="brand">
+          <img
+            id="brandLogo"
+            class="brand-logo"
+            src=""
+            alt="दुकान का लोगो"
+            onerror="this.style.display='none'"
+          >
+
+          <div class="brand-text">
+            <div id="brandName" class="brand-name">किराना स्टोर</div>
+            <div class="brand-subtitle">आपकी भरोसेमंद दुकान</div>
+          </div>
+        </a>
+
+        <div class="nav-actions">
+          <a id="navCall" class="nav-btn" href="#" aria-label="कॉल करें">
+            📞 <span>कॉल</span>
+          </a>
+          <a id="navWhatsapp" class="nav-btn" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
+            💬 <span>WhatsApp</span>
+          </a>
+        </div>
+
+      </div>
+    </header>
+
+
+    <main>
+
+      <!-- LOADING -->
+      <div id="loadingScreen" class="loading">
+        <div>
+          <div class="loader"></div>
+          <div>दुकान की जानकारी लोड हो रही है...</div>
+        </div>
+      </div>
+
+
+      <!-- MAIN CONTENT -->
+      <div id="mainContent" style="display:none;">
+
+        <!-- HERO -->
+        <section class="hero">
+          <div class="container">
+            <div class="hero-box">
+
+              <div class="hero-content">
+
+                <div class="status">
+                  <span id="statusDot" class="status-dot"></span>
+                  <span id="storeStatus">दुकान खुली है</span>
+                </div>
+
+                <h1 id="heroName">किराना स्टोर</h1>
+
+                <p id="heroDescription">
+                  आपके रोज़मर्रा के सामान की भरोसेमंद दुकान।
+                </p>
+
+                <div class="hero-buttons">
+
+                  <a
+                    id="mapButton"
+                    class="hero-btn"
+                    href="#"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    📍 रास्ता देखें
+                  </a>
+
+                  <a
+                    id="heroWhatsapp"
+                    class="hero-btn secondary"
+                    href="#"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    💬 WhatsApp करें
+                  </a>
+
+                  <a
+                    id="heroCall"
+                    class="hero-btn secondary"
+                    href="#"
+                  >
+                    📞 कॉल करें
+                  </a>
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+
+        <!-- SEARCH -->
+        <section class="search-section">
+          <div class="container">
+
+            <div class="search-box">
+              <input
+                id="searchInput"
+                type="search"
+                placeholder="🔍 सामान खोजें..."
+                autocomplete="off"
+              >
+              <span class="search-icon">⌕</span>
+            </div>
+
+          </div>
+        </section>
+
+
+        <!-- CATEGORIES -->
+        <section id="categorySection">
+          <div class="container">
+
+            <div class="section-head">
+              <div>
+                <h2 class="section-title">श्रेणियाँ</h2>
+                <p class="section-subtitle">अपनी पसंद की category चुनें</p>
+              </div>
+            </div>
+
+            <div id="categories" class="categories"></div>
+
+          </div>
+        </section>
+
+
+        <!-- OFFERS -->
+        <section id="offersSection">
+          <div class="container">
+
+            <div class="section-head">
+              <div>
+                <h2 class="section-title">🔥 आज के ऑफर</h2>
+                <p class="section-subtitle">खास कीमतों और ऑफर्स का लाभ उठाएँ</p>
+              </div>
+            </div>
+
+            <div id="offersList" class="offers-list"></div>
+
+          </div>
+        </section>
+
+
+        <!-- FEATURED -->
+        <section id="featuredSection">
+          <div class="container">
+
+            <div class="section-head">
+              <div>
+                <h2 class="section-title">⭐ Featured Products</h2>
+                <p class="section-subtitle">हमारे खास और लोकप्रिय products</p>
+              </div>
+            </div>
+
+            <div id="featuredProducts" class="products-grid"></div>
+
+          </div>
+        </section>
+
+
+        <!-- ALL PRODUCTS -->
+        <section id="productsSection">
+          <div class="container">
+
+            <div class="section-head">
+              <div>
+                <h2 class="section-title">🛒 सभी Products</h2>
+                <p id="productCount" class="section-subtitle"></p>
+              </div>
+            </div>
+
+            <div id="productsGrid" class="products-grid"></div>
+
+          </div>
+        </section>
+
+
+        <!-- ABOUT -->
+        <section id="aboutSection">
+          <div class="container">
+
+            <div class="section-head">
+              <div>
+                <h2 class="section-title">🏪 हमारे बारे में</h2>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <p id="aboutText"></p>
+            </div>
+
+          </div>
+        </section>
+
+
+        <!-- CONTACT -->
+        <section id="contactSection">
+          <div class="container">
+
+            <div class="section-head">
+              <div>
+                <h2 class="section-title">📞 संपर्क करें</h2>
+                <p class="section-subtitle">हमसे आसानी से जुड़ें</p>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="contact-list">
+
+                <div class="contact-item">
+                  <div class="contact-icon">📍</div>
+                  <div>
+                    <div class="contact-label">पता</div>
+                    <div id="contactAddress" class="contact-value">-</div>
+                  </div>
+                </div>
+
+                <div class="contact-item">
+                  <div class="contact-icon">🕐</div>
+                  <div>
+                    <div class="contact-label">समय</div>
+                    <div id="contactTime" class="contact-value">-</div>
+                  </div>
+                </div>
+
+                <div class="contact-item">
+                  <div class="contact-icon">📞</div>
+                  <div>
+                    <div class="contact-label">फोन</div>
+                    <a id="contactPhone" class="contact-value" href="#">-</a>
+                  </div>
+                </div>
+
+                <div class="contact-item">
+                  <div class="contact-icon">💬</div>
+                  <div>
+                    <div class="contact-label">WhatsApp</div>
+                    <a
+                      id="contactWhatsapp"
+                      class="contact-value"
+                      href="#"
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      WhatsApp पर  #loading p { color: var(--text-light); font-size: 15px; }
   #errorBox {
     display: none; margin: 20px; padding: 20px;
     background: #fef2f2; border: 1px solid #fecaca;
