@@ -1,40 +1,1116 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>एडमिन पैनल - किराना स्टोर</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  body { font-family: 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, sans-serif; background: #f1f5f9; color: #1f2937; line-height: 1.6; font-size: 15px; }
-  :root {
-    --primary: #16a34a; --primary-dark: #15803d; --primary-light: #dcfce7;
-    --danger: #dc2626; --danger-light: #fee2e2;
-    --info: #2563eb; --info-light: #dbeafe;
-    --warning: #d97706; --warning-light: #fef3c7;
-    --text: #1f2937; --text-light: #6b7280; --bg: #f1f5f9;
-    --card: #ffffff; --border: #e2e8f0; --radius: 12px;
-    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f766e">
+  <title>Admin Panel - Kirana Store</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --primary: #0f766e;
+      --primary-dark: #115e59;
+      --light: #f0fdfa;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #17202a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --danger: #dc2626;
+      --warning: #d97706;
+      --success: #15803d;
+    }
+
+    body {
+      font-family: Arial, "Noto Sans Devanagari", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(900px, calc(100% - 24px));
+      margin: auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: white;
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 12px rgba(0,0,0,.05);
+    }
+
+    .header-inner {
+      min-height: 65px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .header-title {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .header-subtitle {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .header-icon {
+      font-size: 26px;
+    }
+
+    main {
+      padding: 18px 0 50px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 17px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 15px rgba(15,23,42,.04);
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .card-description {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 16px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 13px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      min-height: 45px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: white;
+      color: var(--text);
+      outline: none;
+    }
+
+    textarea {
+      min-height: 95px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(15,118,110,.1);
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .btn {
+      min-height: 44px;
+      border: 0;
+      border-radius: 11px;
+      padding: 0 15px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-secondary {
+      background: #e2e8f0;
+      color: #334155;
+    }
+
+    .btn-danger {
+      background: #fee2e2;
+      color: var(--danger);
+    }
+
+    .btn-small {
+      min-height: 38px;
+      padding: 0 11px;
+      font-size: 12px;
+    }
+
+    .status-box {
+      padding: 12px 14px;
+      border-radius: 11px;
+      margin-bottom: 14px;
+      font-size: 13px;
+      display: none;
+    }
+
+    .status-success {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    .status-error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    .status-info {
+      display: block;
+      background: #e0f2fe;
+      color: #075985;
+      border: 1px solid #bae6fd;
+    }
+
+    .github-note {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #78350f;
+      padding: 13px;
+      border-radius: 12px;
+      font-size: 12px;
+      margin-bottom: 15px;
+    }
+
+    .product-item,
+    .offer-item {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 12px;
+      background: #fff;
+    }
+
+    .item-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .item-title {
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .item-number {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .check-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 5px;
+    }
+
+    .check {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .check input {
+      width: 18px;
+      height: 18px;
+      min-height: 18px;
+      accent-color: var(--primary);
+    }
+
+    .category-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 9px;
+    }
+
+    .category-tag {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: var(--light);
+      color: var(--primary-dark);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .remove-category {
+      border: 0;
+      background: transparent;
+      color: var(--danger);
+      font-weight: 800;
+      padding: 0 2px;
+    }
+
+    .sticky-save {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 150;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(8px);
+      border-top: 1px solid var(--border);
+      padding: 10px 12px;
+    }
+
+    .sticky-save-inner {
+      width: min(900px, 100%);
+      margin: auto;
+      display: flex;
+      gap: 8px;
+    }
+
+    .sticky-save .btn {
+      flex: 1;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: var(--muted);
+    }
+
+    .empty {
+      text-align: center;
+      padding: 25px 10px;
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .small-help {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    .danger-text {
+      color: var(--danger);
+    }
+
+    @media (min-width: 650px) {
+      .two-col {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .three-col {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container header-inner">
+    <div>
+      <div class="header-title">🛒 Kirana Admin Panel</div>
+      <div class="header-subtitle">Website का data मोबाइल से manage करें</div>
+    </div>
+    <div class="header-icon">⚙️</div>
+  </div>
+</header>
+
+
+<main>
+  <div class="container">
+
+    <div id="statusBox" class="status-box"></div>
+
+
+    <!-- GITHUB SETTINGS -->
+    <section class="card">
+
+      <div class="card-title">🔐 GitHub Connection</div>
+
+      <div class="card-description">
+        सबसे पहले GitHub repository की जानकारी भरें।
+      </div>
+
+      <div class="github-note">
+        <b>Security:</b> GitHub token इस code में hard-code नहीं है।
+        Token केवल इसी page की current session memory में रहेगा।
+        Page बंद/refresh करने के बाद फिर से token डालना होगा।
+      </div>
+
+      <div class="grid two-col">
+
+        <div class="field">
+          <label>GitHub Username / Owner</label>
+          <input
+            id="repoOwner"
+            type="text"
+            placeholder="जैसे sachinboxer0000-lgtm"
+            autocomplete="off"
+          >
+        </div>
+
+        <div class="field">
+          <label>Repository Name</label>
+          <input
+            id="repoName"
+            type="text"
+            placeholder="जैसे KiranaWebsite"
+            autocomplete="off"
+          >
+        </div>
+
+        <div class="field">
+          <label>Branch</label>
+          <input
+            id="repoBranch"
+            type="text"
+            value="main"
+            placeholder="main"
+          >
+        </div>
+
+        <div class="field">
+          <label>GitHub Personal Access Token</label>
+          <input
+            id="githubToken"
+            type="password"
+            placeholder="github_pat_..."
+            autocomplete="new-password"
+          >
+          <div class="small-help">
+            Token में repository के contents को read/write करने की permission होनी चाहिए।
+          </div>
+        </div>
+
+      </div>
+
+      <div style="margin-top:14px;" class="button-row">
+        <button
+          class="btn btn-primary"
+          onclick="loadFromGitHub()"
+        >
+          📥 Data Load करें
+        </button>
+
+        <button
+          class="btn btn-secondary"
+          onclick="clearConnection()"
+        >
+          🧹 Clear
+        </button>
+      </div>
+
+    </section>
+
+
+    <!-- STORE INFORMATION -->
+    <section id="editorArea" class="hidden">
+
+      <div class="card">
+
+        <div class="card-title">🏪 दुकान की जानकारी</div>
+
+        <div class="card-description">
+          Customer website की मुख्य जानकारी यहाँ बदलें।
+        </div>
+
+        <div class="grid">
+
+          <div class="field">
+            <label>दुकान का नाम</label>
+            <input id="storeName" type="text">
+          </div>
+
+          <div class="field">
+            <label>Logo / Image URL</label>
+            <input
+              id="storeLogo"
+              type="url"
+              placeholder="https://..."
+            >
+          </div>
+
+          <div class="field">
+            <label>छोटी Description</label>
+            <textarea id="storeDescription"></textarea>
+          </div>
+
+          <div class="field">
+            <label>WhatsApp Number</label>
+            <input
+              id="storeWhatsapp"
+              type="tel"
+              placeholder="10 digit number"
+            >
+          </div>
+
+          <div class="field">
+            <label>Phone Number</label>
+            <input
+              id="storePhone"
+              type="tel"
+              placeholder="10 digit number"
+            >
+          </div>
+
+          <div class="field">
+            <label>Address</label>
+            <textarea id="storeAddress"></textarea>
+          </div>
+
+          <div class="field">
+            <label>Google Maps URL</label>
+            <input
+              id="storeMaps"
+              type="url"
+              placeholder="https://maps.google.com/..."
+            >
+          </div>
+
+          <div class="grid two-col">
+
+            <div class="field">
+              <label>Opening Time</label>
+              <input
+                id="storeOpening"
+                type="text"
+                placeholder="09:00 AM"
+              >
+            </div>
+
+            <div class="field">
+              <label>Closing Time</label>
+              <input
+                id="storeClosing"
+                type="text"
+                placeholder="09:00 PM"
+              >
+            </div>
+
+          </div>
+
+          <div class="field">
+            <label>About Store</label>
+            <textarea id="storeAbout"></textarea>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- CATEGORIES -->
+      <div class="card">
+
+        <div class="card-title">📂 Categories</div>
+
+        <div class="card-description">
+          Product categories manage करें।
+        </div>
+
+        <div class="button-row">
+          <input
+            id="newCategory"
+            type="text"
+            placeholder="नई category"
+            style="flex:1;min-width:160px;"
+          >
+
+          <button
+            class="btn btn-primary"
+            onclick="addCategory()"
+          >
+            + जोड़ें
+          </button>
+        </div>
+
+        <div id="categoryList" class="category-list"></div>
+
+      </div>
+
+
+      <!-- PRODUCTS -->
+      <div class="card">
+
+        <div class="card-title">🛒 Products</div>
+
+        <div class="card-description">
+          Products को add, edit या delete करें।
+        </div>
+
+        <button
+          class="btn btn-primary"
+          onclick="addProduct()"
+          style="width:100%;"
+        >
+          + नया Product जोड़ें
+        </button>
+
+        <div
+          id="productsEditor"
+          style="margin-top:14px;"
+        ></div>
+
+      </div>
+
+
+      <!-- OFFERS -->
+      <div class="card">
+
+        <div class="card-title">🔥 Offers</div>
+
+        <div class="card-description">
+          दुकान के offers add या edit करें।
+        </div>
+
+        <button
+          class="btn btn-primary"
+          onclick="addOffer()"
+          style="width:100%;"
+        >
+          + नया Offer जोड़ें
+        </button>
+
+        <div
+          id="offersEditor"
+          style="margin-top:14px;"
+        ></div>
+
+      </div>
+
+    </section>
+
+  </div>
+</main>
+
+
+<!-- STICKY SAVE -->
+<div class="sticky-save">
+  <div class="sticky-save-inner">
+
+    <button
+      class="btn btn-secondary"
+      onclick="loadFromGitHub()"
+    >
+      🔄 Load
+    </button>
+
+    <button
+      class="btn btn-primary"
+      onclick="saveToGitHub()"
+    >
+      💾 Save Changes
+    </button>
+
+  </div>
+</div>
+
+
+<script>
+"use strict";
+
+
+/* ==========================================================
+   GLOBAL VARIABLES
+========================================================== */
+
+let data = null;
+let githubFileSha = null;
+let isSaving = false;
+
+
+/* ==========================================================
+   HELPERS
+========================================================== */
+
+function $(id) {
+  return document.getElementById(id);
+}
+
+
+function showStatus(message, type = "info") {
+
+  const box = $("statusBox");
+
+  box.textContent = message;
+
+  box.className =
+    "status-box status-" + type;
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+
+function hideStatus() {
+
+  $("statusBox").className =
+    "status-box";
+
+}
+
+
+function cleanString(value) {
+
+  if (
+    value === undefined ||
+    value === null
+  ) {
+    return "";
   }
-  .topbar { background: linear-gradient(135deg, #16a34a, #15803d); color: #fff; padding: 14px 16px; position: sticky; top: 0; z-index: 200; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-  .topbar-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-  .topbar h1 { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
-  .top-actions { display: flex; gap: 6px; }
-  .tb-btn { background: rgba(255,255,255,0.2); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 7px 11px; border-radius: 8px; font-size: 12px; font-weight: 600; text-decoration: none; font-family: inherit; white-space: nowrap; cursor: pointer; }
-  .tb-btn:hover { background: rgba(255,255,255,0.3); }
-  .container { max-width: 900px; margin: 0 auto; padding: 14px; }
-  #toast { position: fixed; top: 74px; left: 50%; transform: translateX(-50%) translateY(-20px); background: #1f2937; color: #fff; padding: 11px 18px; border-radius: 10px; font-size: 14px; font-weight: 600; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.25s, transform 0.25s; box-shadow: 0 8px 24px rgba(0,0,0,0.25); max-width: 90vw; text-align: center; }
-  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-  #toast.success { background: #16a34a; }
-  #toast.error { background: #dc2626; }
-  #toast.info { background: #2563eb; }
-  .card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 14px; overflow: hidden; border: 1px solid var(--border); }
-  .card-header { padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer; user-select: none; background: #fff; border-bottom: 1px solid transparent; }
-  .card.open .card-header { border-bottom-color: var(--border); }
-  .card-title { font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+
+  return String(value);
+
+}
+
+
+function getGitHubSettings() {
+
+  return {
+    owner: $("repoOwner").value.trim(),
+    repo: $("repoName").value.trim(),
+    branch: $("repoBranch").value.trim() || "main",
+    token: $("githubToken").value.trim()
+  };
+
+}
+
+
+function validateGitHubSettings() {
+
+  const settings =
+    getGitHubSettings();
+
+  if (!settings.owner) {
+    showStatus(
+      "GitHub Username / Owner भरें।",
+      "error"
+    );
+    return false;
+  }
+
+  if (!settings.repo) {
+    showStatus(
+      "Repository Name भरें।",
+      "error"
+    );
+    return false;
+  }
+
+  if (!settings.token) {
+    showStatus(
+      "GitHub Token डालें।",
+      "error"
+    );
+    return false;
+  }
+
+  return true;
+
+}
+
+
+/* ==========================================================
+   GITHUB API
+========================================================== */
+
+function githubApiUrl(settings) {
+
+  return (
+    "https://api.github.com/repos/" +
+    encodeURIComponent(settings.owner) +
+    "/" +
+    encodeURIComponent(settings.repo) +
+    "/contents/data.json"
+  );
+
+}
+
+
+/* ==========================================================
+   LOAD DATA FROM GITHUB
+========================================================== */
+
+async function loadFromGitHub() {
+
+  if (!validateGitHubSettings()) {
+    return;
+  }
+
+  const settings =
+    getGitHubSettings();
+
+  showStatus(
+    "⏳ GitHub से data.json load हो रहा है...",
+    "info"
+  );
+
+  try {
+
+    const url =
+      githubApiUrl(settings) +
+      "?ref=" +
+      encodeURIComponent(settings.branch);
+
+    const response =
+      await fetch(url, {
+        method: "GET",
+        headers: {
+          "Accept":
+            "application/vnd.github+json",
+
+          "Authorization":
+            "Bearer " + settings.token,
+
+          "X-GitHub-Api-Version":
+            "2022-11-28"
+        },
+        cache: "no-store"
+      });
+
+
+    if (!response.ok) {
+
+      let errorText =
+        "GitHub data load नहीं हुआ।";
+
+      try {
+
+        const errorData =
+          await response.json();
+
+        if (errorData.message) {
+          errorText +=
+            " " + errorData.message;
+        }
+
+      } catch (_) {}
+
+      throw new Error(errorText);
+
+    }
+
+
+    const fileData =
+      await response.json();
+
+
+    if (!fileData.content) {
+      throw new Error(
+        "GitHub ने data.json का content नहीं भेजा।"
+      );
+    }
+
+
+    githubFileSha =
+      fileData.sha;
+
+
+    const decoded =
+      decodeBase64Utf8(
+        fileData.content
+      );
+
+
+    data =
+      JSON.parse(decoded);
+
+
+    normalizeData();
+
+
+    renderEditor();
+
+
+    $("editorArea")
+      .classList.remove("hidden");
+
+
+    showStatus(
+      "✅ data.json successfully load हो गया।",
+      "success"
+    );
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    showStatus(
+      "❌ " + error.message,
+      "error"
+    );
+
+  }
+
+}
+
+
+/* ==========================================================
+   UTF-8 BASE64 DECODING
+========================================================== */
+
+function decodeBase64Utf8(base64) {
+
+  /*
+    GitHub content कभी-कभी line breaks के साथ
+    Base64 में आता है।
+  */
+
+  const cleaned =
+    base64.replace(/\s/g, "");
+
+  const binary =
+    atob(cleaned);
+
+  const bytes =
+    new Uint8Array(
+      binary.length
+    );
+
+  for (
+    let i = 0;
+    i < binary.length;
+    i++
+  ) {
+    bytes[i] =
+      binary.charCodeAt(i);
+  }
+
+  return new TextDecoder(
+    "utf-8"
+  ).decode(bytes);
+
+}
+
+
+/* ==========================================================
+   UTF-8 BASE64 ENCODING
+========================================================== */
+
+function encodeBase64Utf8(text) {
+
+  const bytes =
+    new TextEncoder().encode(text);
+
+  let binary = "";
+
+  const chunkSize = 0x8000;
+
+  for (
+    let i = 0;
+    i < bytes.length;
+    i += chunkSize
+  ) {
+
+    const chunk =
+      bytes.subarray(
+        i,
+        Math.min(
+          i + chunkSize,
+          bytes.length
+        )
+      );
+
+    binary += String.fromCharCode(
+      ...chunk
+    );
+
+  }
+
+  return btoa(binary);
+
+}
+
+
+/* ==========================================================
+   NORMALIZE DATA
+========================================================== */
+
+function normalizeData() {
+
+  if (
+    !data ||
+    typeof data !== "object"
+  ) {
+    data = {};
+  }
+
+
+  if (
+    !data.store ||
+    typeof data.store !== "object"
+  ) {
+    data.store = {};
+  }
+
+
+  if (
+    !Array.isArray(data.categories)
+  ) {
+    data.categories = [];
+  }
+
+
+  if (
+    !Array.isArray(data.products)
+  ) {
+    data.products = [];
+  }
+
+
+  if (
+    !Array.isArray(data.offers)
+  ) {
+    data.offers = [];
+  }
+
+
+  /*
+    अगर categories खाली हैं तो products से
+    automatically categories निकालें।
+  */
+
+  if (
+    data.categories.length === 0
+  ) {
+
+    const generated =
+      data.products
+        .map(product =>
+          cleanString(product.category).trim()
+        )
+        .filter(Boolean);
+
+    data.categories = [
+      ...new Set(generated)
+    ];
+
+  }
+
+}
+
+
+/* ==========================================================
+   RENDER EDITOR
+========================================================== */
+
+function renderEditor() {
+
+  renderStoreFields();
+
+  renderCategories();
+
+  renderProducts();
+
+  renderOffers();
+
+}
+
+
+/* ==========================================================
+   STORE FIELDS
+========================================================== */
+
+function renderStoreFields() {
+
+  const store =
+    data.store || {};
+
+
+  $("storeName").value =
+    cleanString(store.name);
+
+  $("storeLogo").value =
+    cleanString(store.logo);
+
+  $("storeDescription").value =
+    cleanString(store.description);
+
+  $("storeWhatsapp").value =
+    cleanString(store.whatsapp);
+
+  $("storePhone").value =
+    cleanString(store.phone);
+
+  $("storeAddress").value =
+    cleanString(store.address);
+
+  $("storeMaps").value =
+    cleanString(store.mapsUrl);
+
+  $("storeOpening").value =
+    cleanString(store.openingTime);
+
+  $("storeClosing").  .card-title { font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
   .card-title .icon { width: 30px; height: 30px; background: var(--primary-light); color: var(--primary-dark); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 16px; }
   .chev { color: var(--text-light); transition: transform 0.2s; }
   .card.open .chev { transform: rotate(180deg); }
